@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
@@ -8,15 +9,21 @@ const tagParentsTable = require('./tagParentsQueries')
 
 app.use(bodyParser.json())
 app.use(
-	bodyParser.urlencoded({
-		extended: true,
+    bodyParser.urlencoded({
+        extended: true,
     })
 )
-app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['http://localhost/CompViz/CompetencyViz.html']);
-});
+
+/**
+ * Restricting allowed hosts:
+ *  app.use(cors({
+ *  origin: 'http://yourapp.com'
+ *  }));
+ */
+app.use(cors());
+
 app.get('/', (request, response) => {
-	response.json({ info: 'Competencies API' })
+    response.json({ info: 'Competencies API' })
 })
 
 app.get('/tags', tagTable.getTags)
@@ -32,5 +39,5 @@ app.post('/tag-parents', tagParentsTable.createTagParents)
 app.delete('/tag-parents/:id', tagParentsTable.deleteTagParents)
 
 app.listen(port, () => {
-	console.log(`App running on port ${port}.`)
+    console.log(`App running on port ${port}.`)
 })
