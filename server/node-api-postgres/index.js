@@ -10,8 +10,11 @@ app.use(bodyParser.json())
 app.use(
 	bodyParser.urlencoded({
 		extended: true,
-	})
+    })
 )
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['http://localhost/CompViz/CompetencyViz.html']);
+});
 app.get('/', (request, response) => {
 	response.json({ info: 'Competencies API' })
 })
