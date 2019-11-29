@@ -72,14 +72,12 @@ const deleteTag = (request, response) => {
         var deletedTags = new Set()
 
         deleteTagAndChildren(id)
-            .then(function (result) {
-
-                console.log(result)
+            .then((result) => {
+                
                 deletedTags = result
 
                 deletedTags.forEach(function (deletedTag) {
-                    Console.log(deletedTag)
-
+                    console.log(deletedTag)
                 })
 
 
@@ -100,6 +98,7 @@ const deleteTag = (request, response) => {
                     response.status(500).send(`Tag ${id} and its children could not be deleted.`)
                 }
             })
+            .catch(err => console.log(err))
 
 
 
@@ -117,50 +116,42 @@ const deleteTag = (request, response) => {
 async function deleteTagAndChildren(id) {
     var deletedTags = new Set()
 
-    pool.query('SELECT * FROM tag_parents WHERE parents_id = $1', [id], (error, results) => {
-        if (error) {
-            return deletedTags
-        }
+    await pool
+        .query('SELECT * FROM tag_parents WHERE parents_id = $1', [id])
+        .then(results => {
 
-        var childrenString = JSON.stringify(results.rows)
-        var childrenArray = JSON.parse(childrenString)
+            var childrenString = JSON.stringify(results.rows)
+            var childrenArray = JSON.parse(childrenString)
 
-        async function goThroughChildren(childrenArray) {
             for (child of childrenArray) {
                 deleteTagAndChildren(child['tag_id'])
-                    .then(function (result) {
-                        console.log('ids: ' + result)
+                    .then((result) => {
                         deletedTags = new Set([...deletedTags, ...result])
-                        console.log('tada: ' + deletedTags)
-                    }
-                )
+                    })
             }
-        }
-
-        goThroughChildren(childrenArray)
-            .then(
-                //delete all connections to and from this tag
-                pool.query('DELETE FROM tag_parents WHERE tag_id = $1 OR parents_id = $1',
-                    [id], (error, results) => {
-                        if (error) {
-                            return deletedTags
-                        }
-
-                        //delete the tag
-                        pool.query('DELETE FROM tag WHERE id = $1',
-                            [id], (error, results) => {
-                                if (error) {
-                                    return deletedTags
-                                }
-                                deletedTags.add(id)
-                                console.log(deletedTags)
-                                return deletedTags
-                            })
-                    }
-                )
-            )
-    }
-    )
+            return true
+        })
+        .then(async () => {
+            //delete all connections to and from this tag
+            await pool
+                .query('DELETE FROM tag_parents WHERE tag_id = $1 OR parents_id = $1', [id])
+                .catch(error => console.error('Error executing query', error.stack)) 
+            return true
+        })
+        .then(async () => {
+            //delete the tag
+            await pool
+                .query('DELETE FROM tag WHERE id = $1', [id])
+                .catch(error => console.error('Error executing query', error.stack))
+            return true
+        })
+        .then(() => {
+            deletedTags.add(id)     
+            return true
+        })
+        .catch(error => console.error('Error executing query', error.stack))
+   
+    return deletedTags
 };
 
 function deleteTagAndReconnectChildren(id) {
