@@ -69,29 +69,23 @@ const deleteTag = (request, response) => {
     const { id, deleteChildren } = request.body
 
     if (deleteChildren == 'true') {
-        var deletedTags = new Set()
 
         deleteTagAndChildren(id)
-            .then((result) => {
+            .then((deletedTags) => {
                 
-                deletedTags = result
-
-                deletedTags.forEach(function (deletedTag) {
-                    console.log(deletedTag)
-                })
-
-
                 if (deletedTags.size > 0) {
 
+                    //create JSON string
                     var resultsString = '{"deletedTags":['
 
                     deletedTags.forEach(function (deletedTag) {
-                        resultsString.concat(' { "id": "' + deletedTag + '" }, ')
-
+                        resultsString = resultsString + '{ "id": "' + deletedTag + '" }, '
                     })
 
                     resultsString = resultsString.slice(0, -2)
-                    resultsString.concat(']}')
+                    resultsString = resultsString + ']}'
+
+                    console.log(resultsString)
 
                     response.status(200).json(JSON.parse(resultsString))
                 } else {
@@ -99,9 +93,6 @@ const deleteTag = (request, response) => {
                 }
             })
             .catch(err => console.log(err))
-
-
-
     } else {
         if (deleteTagAndReconnectChildren(id)) {
             var resultsString = '{"deletedTags":[{"id":"' + id + '"}]}'
@@ -118,16 +109,14 @@ async function deleteTagAndChildren(id) {
 
     await pool
         .query('SELECT * FROM tag_parents WHERE parents_id = $1', [id])
-        .then(results => {
+        .then(async results => {
 
             var childrenString = JSON.stringify(results.rows)
             var childrenArray = JSON.parse(childrenString)
 
             for (child of childrenArray) {
-                deleteTagAndChildren(child['tag_id'])
-                    .then((result) => {
-                        deletedTags = new Set([...deletedTags, ...result])
-                    })
+                result = await deleteTagAndChildren(child['tag_id'])
+                deletedTags = new Set([...deletedTags, ...result])
             }
             return true
         })
