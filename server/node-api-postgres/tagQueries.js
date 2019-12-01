@@ -9,6 +9,29 @@ const pool = new Pool({
     port: 5432,
 })
 
+/**
+ * This function sends a response with an array of all tags.
+ * 
+ * Exampe of the JSON response:
+ * {
+    "tags": [
+        {
+            "id": "1",
+            "created": "2018-12-24T11:00:00.000Z",
+            "created_by": "-MIG-",
+            "modified": null,
+            "modified_by": null,
+            "version": "0",
+            "description": null,
+            "name": "Außerberuflich",
+            "a_type": "SKILL"
+        }
+    ]
+   }
+ * 
+ * @param {any} request
+ * @param {any} response
+ */
 const getTags = (request, response) => {
     pool.query('SELECT * FROM tag ORDER BY id ASC', (error, results) => {
         if (error) {
@@ -65,6 +88,26 @@ const updateTag = (request, response) => {
     )
 }
 
+/**
+ * This function deletes a tag with the given id. There are two methods to delete it. 
+ * Depending on the parameter deleteChildren, one method is chosen.
+ * A response with an array of ids of all deleted tags is send.
+ * 
+ * Example of the JSON response:
+ * {
+    "deletedTags": [
+        {
+            "id": "150"
+        },
+        {
+            "id": "151"
+        }
+     ]
+    }
+ * 
+ * @param {any} request
+ * @param {any} response
+ */
 const deleteTag = async (request, response) => {
     const { id, deleteChildren } = request.body
     var deletedTags = new Set()
@@ -93,6 +136,11 @@ const deleteTag = async (request, response) => {
     }
 }
 
+/**
+ * This function deletes the tag with the given id and all its children.
+ *
+ * @param {any} id of the tag, which should be deleted
+ */
 async function deleteTagAndChildren(id) {
     var deletedTags = new Set()
 
@@ -133,6 +181,11 @@ async function deleteTagAndChildren(id) {
     return deletedTags
 }
 
+/**
+ * This function deletes the tag with the given id and connects its children with all of its parents.
+ * 
+ * @param {any} id of the tag, which should be deleted
+ */
 async function deleteTagAndReconnectChildren(id) {
     var deletedTags = new Set()
 
