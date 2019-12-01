@@ -85,8 +85,6 @@ const deleteTag = (request, response) => {
                     resultsString = resultsString.slice(0, -2)
                     resultsString = resultsString + ']}'
 
-                    console.log(resultsString)
-
                     response.status(200).json(JSON.parse(resultsString))
                 } else {
                     response.status(500).send(`Tag ${id} and its children could not be deleted.`)
@@ -114,6 +112,7 @@ async function deleteTagAndChildren(id) {
             var childrenString = JSON.stringify(results.rows)
             var childrenArray = JSON.parse(childrenString)
 
+            //recursivly iterate through all children
             for (child of childrenArray) {
                 result = await deleteTagAndChildren(child['tag_id'])
                 deletedTags = new Set([...deletedTags, ...result])
