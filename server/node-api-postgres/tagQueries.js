@@ -65,40 +65,31 @@ const updateTag = (request, response) => {
     )
 }
 
-const deleteTag = (request, response) => {
+const deleteTag = async (request, response) => {
     const { id, deleteChildren } = request.body
+    var deletedTags = new Set()
 
     if (deleteChildren == 'true') {
-
-        deleteTagAndChildren(id)
-            .then((deletedTags) => {
-                
-                if (deletedTags.size > 0) {
-
-                    //create JSON string
-                    var resultsString = '{"deletedTags":['
-
-                    deletedTags.forEach(function (deletedTag) {
-                        resultsString = resultsString + '{ "id": "' + deletedTag + '" }, '
-                    })
-
-                    resultsString = resultsString.slice(0, -2)
-                    resultsString = resultsString + ']}'
-
-                    response.status(200).json(JSON.parse(resultsString))
-                } else {
-                    response.status(500).send(`Tag ${id} and its children could not be deleted.`)
-                }
-            })
-            .catch(err => console.log(err))
+        deletedTags = await deleteTagAndChildren(id)        
     } else {
-        if (deleteTagAndReconnectChildren(id)) {
-            var resultsString = '{"deletedTags":[{"id":"' + id + '"}]}'
+        deletedTags = await deleteTagAndReconnectChildren(id)
+    }    
 
-            response.status(200).json(JSON.parse(resultsString))
-        } else {
-            response.status(500).send(`Tag ${id} could not be deleted.`)
-        }
+    if (deletedTags.size > 0) {
+
+        //create JSON string
+        var resultsString = '{"deletedTags":['
+
+        deletedTags.forEach(function (deletedTag) {
+            resultsString = resultsString + '{ "id": "' + deletedTag + '" }, '
+        })
+
+        resultsString = resultsString.slice(0, -2)
+        resultsString = resultsString + ']}'
+
+        response.status(200).json(JSON.parse(resultsString))
+    } else {
+        response.status(500).send(`Tag ${id} could not be deleted.`)
     }
 }
 
@@ -123,7 +114,7 @@ async function deleteTagAndChildren(id) {
             //delete all connections to and from this tag
             await pool
                 .query('DELETE FROM tag_parents WHERE tag_id = $1 OR parents_id = $1', [id])
-                .catch(error => console.error('Error executing query', error.stack)) 
+                .catch(error => console.error('Error executing query', error.stack))
             return true
         })
         .then(async () => {
@@ -134,61 +125,62 @@ async function deleteTagAndChildren(id) {
             return true
         })
         .then(() => {
-            deletedTags.add(id)     
+            deletedTags.add(id)
             return true
         })
         .catch(error => console.error('Error executing query', error.stack))
-   
+
     return deletedTags
-};
+}
 
-function deleteTagAndReconnectChildren(id) {
-    pool.query('SELECT * FROM tag_parents WHERE tag_id = $1', [id], (error, results) => {
-        if (error) {
-            return false
-        }
+async function deleteTagAndReconnectChildren(id) {
+    var deletedTags = new Set()
 
-        var parentsString = JSON.stringify(results.rows)
-        var parentsArray = JSON.parse(parentsString)
+    await pool
+        .query('SELECT * FROM tag_parents WHERE tag_id = $1', [id])
+        .then(async results => {
 
-        pool.query('SELECT * FROM tag_parents WHERE parents_id = $1', [id], (error, results) => {
-            if (error) {
-                return false
-            }
-            var childrenString = JSON.stringify(results.rows)
-            var childrenArray = JSON.parse(childrenString)
+            var parentsString = JSON.stringify(results.rows)
+            var parentsArray = JSON.parse(parentsString)
 
-            //create new relations between children of tag and parents of tag
-            for (parent of parentsArray) {
-                for (child of childrenArray) {
-                    pool.query('INSERT INTO tag_parents (tag_id, parents_id) VALUES($1, $2)',
-                        [child["tag_id"], parent["parents_id"]], (error, results) => {
-                            if (error) {
-                                return false
-                            }
-                        })
-                }
-            }
+            await pool
+                .query('SELECT * FROM tag_parents WHERE parents_id = $1', [id])
+                .then(async results => {
+                    var childrenString = JSON.stringify(results.rows)
+                    var childrenArray = JSON.parse(childrenString)
 
-            //delete all connections to and from this tag
-            pool.query('DELETE FROM tag_parents WHERE tag_id = $1 OR parents_id = $1',
-                [id], (error, results) => {
-                    if (error) {
-                        return false
+                    //create new relations between children of tag and parents of tag
+                    for (parent of parentsArray) {
+                        for (child of childrenArray) {
+                            await pool
+                                .query('INSERT INTO tag_parents (tag_id, parents_id) VALUES($1, $2)', [child["tag_id"], parent["parents_id"]])
+                                .catch(error => console.error('Error executing query', error.stack))
+                        }
                     }
-
-                    //delete the tag
-                    pool.query('DELETE FROM tag WHERE id = $1',
-                        [id], (error, results) => {
-                            if (error) {
-                                return false
-                            }
-                        })
                 })
+                .catch(error => console.error('Error executing query', error.stack))
+            return true
         })
-    })
-    return true
-};
+        .then(async () => {
+            //delete all connections to and from this tag
+            await pool
+                .query('DELETE FROM tag_parents WHERE tag_id = $1 OR parents_id = $1', [id])
+                .catch(error => console.error('Error executing query', error.stack))
+            return true
+        })
+        .then(async () => {
+            //delete the tag
+            await pool
+                .query('DELETE FROM tag WHERE id = $1', [id])
+                .catch(error => console.error('Error executing query', error.stack))
+
+            deletedTags.add(id)
+            return true
+        })
+        .catch(error => console.error('Error executing query', error.stack))
+
+    return deletedTags
+}
 
 module.exports = {
     getTags,
