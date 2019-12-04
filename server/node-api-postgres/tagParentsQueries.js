@@ -76,16 +76,14 @@ const createTagParents = (request, response) => {
         })
 }
 
-const deleteTagParents = (request, response) => {
+const deleteTagParents = async (request, response) => {
     const { tag_id, parents_id } = request.body
 
-    pool.query('DELETE FROM tag_parents WHERE tag_id = $1 AND parents_id = $2',
-        [tag_id, parents_id], (error, results) => {
-        if (error) {
-            throw error
-        }
-            response.status(200).send(`Relation ${tag_id, parents_id} deleted`)
-    })
+    await pool
+        .query('DELETE FROM tag_parents WHERE tag_id = $1 AND parents_id = $2', [tag_id, parents_id])
+        .catch(error => console.error('Error executing query', error.stack))
+
+    response.status(200).send(`Relation ${tag_id} to ${parents_id} deleted`)
 }
 
 module.exports = {
