@@ -65,6 +65,7 @@ const getTagChildrenById = (request, response) => {
 }
 
 const createTagParents = async (request, response) => {
+    console.log(request.body)
     var tagParents = request.body.tagParents
 
     tagParents.forEach(async ({ tag_id, parents_id }) => {
