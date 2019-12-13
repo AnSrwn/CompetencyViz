@@ -3,6 +3,16 @@
 	"EngineAssociation": "4.23",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "CompetencyViz",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "GoogleARCore",
