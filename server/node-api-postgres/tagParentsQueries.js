@@ -64,16 +64,17 @@ const getTagChildrenById = (request, response) => {
     })
 }
 
-const createTagParents = (request, response) => {
-    const { tag_id, parents_id } = request.body
+const createTagParents = async (request, response) => {
+    console.log(request.body)
+    var tagParents = request.body.tagParents
 
-    pool.query('INSERT INTO tag_parents (tag_id, parents_id) VALUES($1, $2)',
-        [tag_id, parents_id], (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(201).send(`tag_parents added`)
-        })
+    tagParents.forEach(async ({ tag_id, parents_id }) => {
+        await pool
+            .query('INSERT INTO tag_parents (tag_id, parents_id) VALUES($1, $2)', [tag_id, parents_id])
+            .catch(error => console.error('Error executing query', error.stack))
+    })
+
+    response.status(201).send(`tag_parents added`)
 }
 
 const deleteTagParents = async (request, response) => {
