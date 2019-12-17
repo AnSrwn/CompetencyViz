@@ -73,12 +73,11 @@ const createTag = (request, response) => {
 }
 
 const updateTag = (request, response) => {
-    const id = parseInt(request.params.id)
-    const { version, created, created_by, name, a_type, description } = request.body
+    const { id, version, created, created_by, modified, modified_by, name, a_type, description } = request.body
 
     pool.query(
-        'UPDATE tag SET version = $1, created = $2, created_by = $3, name = $4, a_type = $5, description = $6 WHERE id = $7',
-        [version, created, created_by, name, a_type, description, id],
+        'UPDATE tag SET version = $1, created = $2, created_by = $3, name = $4, a_type = $5, description = $6, modified = $7, modified_by = $8 WHERE id = $9',
+        [version, created, created_by, name, a_type, description, modified, modified_by, id],
         (error, results) => {
             if (error) {
                 throw error
