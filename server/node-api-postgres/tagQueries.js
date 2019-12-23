@@ -60,16 +60,35 @@ const getTagById = (request, response) => {
     })
 }
 
-const createTag = (request, response) => {
+const createTag = async (request, response) => {
     const { version, created, created_by, name, a_type, description } = request.body
 
-    pool.query('INSERT INTO tag (id, version, created, created_by, name, a_type, description) VALUES($1, $2, $3, $4, $5, $6)',
-        [version, created, created_by, name, a_type, description], (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(201).send(`Tag added with ID: ${result.insertId}`)
+    var newID = null
+
+    await pool
+        .query('SELECT max(id) from tag')
+        .then(async results => {
+            //Creating new ID
+            newID = parseInt(results.rows[0].max) + 1           
+            return true
         })
+        .then(async () => {
+            //insert new tag
+            await pool
+                .query('INSERT INTO tag (id, version, created, created_by, name, a_type, description) VALUES($1, $2, $3, $4, $5, $6, $7)',
+                    [newID, version, created, created_by, name, a_type, description])
+                .catch(error => {
+                    console.error('Error executing query', error.stack)
+                    response.status(500).send(`Error executing query`)                    
+                })
+            return true
+        })
+        .catch(error => {
+            console.error('Error executing query', error.stack)
+            response.status(500).send(`Error executing query`)
+        })
+
+    response.status(200).send(`New Tag inserted`)
 }
 
 const updateTag = (request, response) => {
