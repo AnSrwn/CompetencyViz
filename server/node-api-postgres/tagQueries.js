@@ -87,8 +87,9 @@ const createTag = async (request, response) => {
             console.error('Error executing query', error.stack)
             response.status(500).send(`Error executing query`)
         })
+    var responseString = '{"id":"' + newID +'"}'
 
-    response.status(200).send(`New Tag inserted`)
+    response.status(200).json(JSON.parse(responseString))
 }
 
 const updateTag = (request, response) => {
