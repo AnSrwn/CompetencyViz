@@ -9,10 +9,6 @@ const tagParentsTable = require('./tagParentsQueries')
 
 var child_process = require('child_process');
 
-//child_process.exec('C:\\Users\\asauerwein\\Desktop\\CompetencyViz\\server\\sql-data\\setUpTables.bat', function (error, stdout, stderr) {
-//    console.log(stdout);
-//});
-
 app.use(bodyParser.json())
 app.use(
     bodyParser.urlencoded({
@@ -21,6 +17,8 @@ app.use(
 )
 
 /**
+ * If there is a static URL, this should be used instead of app.use(cors()).
+ * 
  * Restricting allowed hosts:
  *  app.use(cors({
  *  origin: 'http://yourapp.com'
