@@ -39,11 +39,7 @@ const getTags = (request, response) => {
         }
 
         //creating a JSON object on top level
-        var resultsString = JSON.stringify(results.rows)
-        var prependString = '{"tags":'
-        var appendString = '}'
-
-        resultsString = prependString.concat(resultsString, appendString)
+        const resultsString = JSON.stringify({tags: results.rows})
 
         response.status(200).json(JSON.parse(resultsString))
     })

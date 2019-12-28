@@ -16,11 +16,7 @@ const getTagParents = (request, response) => {
         }
 
         //creating a JSON object on top level
-        var resultsString = JSON.stringify(results.rows)
-        var prependString = '{"tagParents":'
-        var appendString = '}'
-
-        resultsString = prependString.concat(resultsString, appendString)
+        const resultsString = JSON.stringify({tagParents: results.rows})
 
         response.status(200).json(JSON.parse(resultsString))
     })
@@ -35,11 +31,7 @@ const getTagParentsById = (request, response) => {
         }
 
         //creating a JSON object on top level
-        var resultsString = JSON.stringify(results.rows)
-        var prependString = '{"tagParents":'
-        var appendString = '}'
-
-        resultsString = prependString.concat(resultsString, appendString)
+        const resultsString = JSON.stringify({ tagParents: results.rows })
 
         response.status(200).json(JSON.parse(resultsString))
     })
@@ -54,11 +46,7 @@ const getTagChildrenById = (request, response) => {
         }
 
         //creating a JSON object on top level
-        var resultsString = JSON.stringify(results.rows)
-        var prependString = '{"tagChildren":'
-        var appendString = '}'
-
-        resultsString = prependString.concat(resultsString, appendString)
+        const resultsString = JSON.stringify({ tagChildren: results.rows })
 
         response.status(200).json(JSON.parse(resultsString))
     })
