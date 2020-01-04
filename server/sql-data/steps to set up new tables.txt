@@ -1,4 +1,3 @@
-cd C:\Users\asauerwein\Desktop\CompetencyViz\server\sql-data
 psql -d postgres -U competencyviz
 competencyviz
 \c competency
