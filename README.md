@@ -8,15 +8,17 @@ used as a web application.
 
 ## Features ##
 <p align="justify">
-*  Using Augmented Reality
-*  Multi-Platform: Android and Web
-*  CRUD functionality for competencies and their relations
+*  Using Augmented Reality<br>
+*  Multi-Platform: Android and Web<br>
+*  CRUD functionality for competencies and their relations<br>
 
 <br><br>
 
 ## Setup ##
+<br>
 <p align="justify">
 ### Server ###
+<br>
 #### Datenbank: ####
 1.	PostgreSQL installieren
 2.	User und Database anlegen, z.B:
