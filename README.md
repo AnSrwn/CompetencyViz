@@ -6,15 +6,35 @@ used as a web application.
 
 <br><br>
 
-Features:
+## Features ##
+<p align="justify">
 *  Using Augmented Reality
 *  Multi-Platform: Android and Web
 *  CRUD functionality for competencies and their relations
 
 <br><br>
 
-Setup:
+## Setup ##
+<p align="justify">
+### Server ###
+#### Datenbank: ####
+1.	PostgreSQL installieren
+2.	User und Database anlegen, z.B:
+>  User: „competencyviz“
+>  Database: „competency“
+>  Password: „competencyviz“
+
+Wenn andere Daten gewählt werden, müssen diese in tagQueries.js und tagParentsQueris.js geändert werden.
+3.	Encoding ändern mit: “set client_encoding to ‘utf8’;”.
+4.	Tables erstellen mit der Datei create.sql in /server/sql-data („\i create.sql;“).
+5.	Daten hinzufügen mit der Datei data-dev.sql in /server/sql-data („\i data-dev.sql;“).
+
+
+<br><br>
+
+## Usage ##
+<p align="justify">
 
 <br><br>
   
-Future objectives:
+## Future objectives ##
