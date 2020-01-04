@@ -23,11 +23,10 @@ used as a web application.
 >  User: „competencyviz“
 >  Database: „competency“
 >  Password: „competencyviz“
-
-Wenn andere Daten gewählt werden, müssen diese in tagQueries.js und tagParentsQueris.js geändert werden.
-3.	Encoding ändern mit: “set client_encoding to ‘utf8’;”.
-4.	Tables erstellen mit der Datei create.sql in /server/sql-data („\i create.sql;“).
-5.	Daten hinzufügen mit der Datei data-dev.sql in /server/sql-data („\i data-dev.sql;“).
+    Wenn andere Daten gewählt werden, müssen diese in tagQueries.js und tagParentsQueris.js geändert werden.
+3.	Encoding ändern mit: “set client_encoding to ‘utf8’;”
+4.	Tables erstellen mit der Datei create.sql („\i create.sql;“).
+5.	Daten hinzufügen mit der Datei data-dev.sql („\i data-dev.sql;“).
 
 
 <br><br>
