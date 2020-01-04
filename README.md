@@ -7,6 +7,9 @@ used as a web application.
 <br><br>
 
 Features:
+*  Using Augmented Reality
+*  Multi-Platform: Android and Web
+*  CRUD functionality for competencies and their relations
 
 <br><br>
 
