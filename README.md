@@ -56,6 +56,24 @@ used as a web application.
 ## Usage ##
 <p align="justify">
 
-<br><br>
+### Position the visualization in AR ###
+After starting the Android-Application, it starts to search for planes. If one is found, it is marked like in the image below.
+
+![alt text](documentation/Plane.png "Visualization of a plane")
+
+Now you can touch at a point inside the rectangle and the visualization will be positioned at this point.
+
+### Moving objects ###
+Objects can be moved with Drag/Move Touch.
+
+### Create competency ###
+Long Touch on the recycle bin. Now input fields open and you can enter name, type and a description.
+
+### Create relation ###
+Move a competency obect on an existing relation.<br>
+**OR:** <br>
+Get physically closer to a competency object until a button is shown. After a touch on the button, a sphere is shown, which can be moved with Drag/Move touch. If dropped on another competency, a relation will be created.
+
+
   
 ## Future objectives ##
