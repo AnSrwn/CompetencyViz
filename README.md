@@ -141,6 +141,8 @@ Before each name there is a shortcut for the type of the class:
 ## Future objectives ##
 
 *  The positioning of the competencies can be optimized. A Force-Directed algorithm can be tried, but you always need to consider the performance of the Handhelds.
+*  Implementing a Search functionality.
+*  Implementing the possibility that you can visualize the realtions at any time (e.g. with a button or by speech), not only in the Details view.
 *  Improving the visualization of the AR planes. 
 *  Navigation in the Web-Application can be improved by only using the mouse.
 *  Code Refactoring is needed for improving the structure, the correct use of the components and reducing dependencies between classes.
