@@ -11,11 +11,10 @@ used as a web application.
 * Multi-Platform: Android and Web
 * CRUD functionality for competencies and their relations
 
-<br>
-
 ## Setup ##
 <p align="justify">
-Database:<br>
+
+### Database ###
 
 1.  Install PostgreSQL
 2.	Create User and Database, e.g.:
@@ -28,23 +27,26 @@ Database:<br>
 4.	Create Tables with the file [create.sql](server/sql-data/create.sql): `\i create.sql;`
 5.	Add data with the file [data-dev.sql](server/sql-data/data-dev.sql): `\i data-dev.sql;`
 
-Server:<br>
+### Server ###
 
 1.	Install Node.js
 2.	Install Express und node-postgres modules: `npm i express pg`
 3.	Start server: `node index.js`
 
-Client:<br>
+### Client ###
+
 1.  Install Unreal Engine 4
 2.  Open the [Unreal Project](client/CompetencyViz/CompetencyViz.uproject)
 3.  Change the IP-address in the variable *URL* in the class [BP_VariableStore](client/CompetencyViz/Content/Blueprints/BP_VariableStore.uasset). Standard is localhost.
 
-Android:
+#### Android ####
+
 1.  In Unreal Engine 4 go to File --> Package Project --> Android --> Android (ETC1) **OR:** Connect you device, click on Launch and choose your device
 1.	The APK can now be found in Binaries/Android. Copy it to your device and install the APK.
 2.	Eventually ARCore must be installed
 
-Web:
+#### Web ####
+
 1.  In Unreal Engine 4 go to File --> Package Project --> HTML5 **OR:** Click on Launch and choose a browser
 2.  The files can now be found in Binaries/HTML5
 3.  With HTML5LaunchHelper.exe a test server can be started
