@@ -93,4 +93,36 @@ Touch (Web: Left Mouse) on a relation.
 ### Edit competency attributes ###
 Double touch (Web: Right Mouse) on a competency to show the details. Next to the description there is an Edit button. After touching it, there will be input fields for name, type and description.
   
+## Folder Structure of Unreal Project ##
+```
+Content
+|
+|__Blueprints (Here are all the Blueprint classes)
+|   |
+|   |__Buttons (Actors which are used as buttons)
+|   |
+|   |__ConnectionActors (Actors related to connections/relations)
+|   |
+|   |__Libraries (Static function libraries to reduce amount of functions in some actors)
+|   |
+|   |__TagActors (Actors related to tags/competencies)
+|   |
+|   |__Widgets
+|
+|__DataStructs
+|
+|__Maps (here is the Main level)
+|
+|__Materials
+|
+|__ParticleSystem
+|
+|__StaticMeshes
+|
+|__Textures
+```
+
+
+
+  
 ## Future objectives ##
