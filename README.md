@@ -7,6 +7,8 @@ used as a web application.
 <br>
 
 ## Features ##
+<p align="justify">
+
 * Using Augmented Reality
 * Multi-Platform: Android and Web
 * CRUD functionality for competencies and their relations
@@ -94,6 +96,8 @@ Touch (Web: Left Mouse) on a relation.
 Double touch (Web: Right Mouse) on a competency to show the details. Next to the description there is an Edit button. After touching it, there will be input fields for name, type and description.
   
 ## Folder Structure of Unreal Project ##
+<p align="justify">
+
 ```
 Content
 |
@@ -122,7 +126,23 @@ Content
 |__Textures
 ```
 
+### File Naming ###
+Before each name there is a shortcut for the type of the class:
 
-
+| Shortcut | Typ |
+| ------ | ------ |
+| BP | Blueprint |
+| ABP | Blueprint Actor | 
+| EBP | Blueprint Enumeration | 
+| ACBP | Blueprint CableComponent | 
+| WBP | Blueprint Widget | 
+| S | Structure | 
   
 ## Future objectives ##
+
+*  The positioning of the competencies can be optimized. A Force-Directed algorithm can be tried, but you always need to consider the performance of the Handhelds.
+*  Improving the visualization of the AR planes. 
+*  Navigation in the Web-Application can be improved by only using the mouse.
+*  Code Refactoring is needed for improving the structure, the correct use of the components and reducing dependencies between classes.
+*  Implementing new interaction possibilities, like speech recognition, gaze or tangibles.
+*  Port it to other platforms, like MagicLeap or HoloLens.
