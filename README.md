@@ -1,8 +1,8 @@
 # CompetencyViz
 <p align="justify">
 CompetencyViz is an interactive visualization of competencies and their relations.
-It is developed as an Anrdroid Application using Augmented Reality, but can also be 
-used as a web application.
+It is developed as an Android Application using Augmented Reality, but can also be 
+used as a Web-Application.
 
 <br>
 
