@@ -64,16 +64,33 @@ After starting the Android-Application, it starts to search for planes. If one i
 Now you can touch at a point inside the rectangle and the visualization will be positioned at this point.
 
 ### Moving objects ###
-Objects can be moved with Drag/Move Touch.
+Objects can be moved with Drag/Move Touch (Web: Middle Mouse).
+
+### Store competencies ###
+You can store competencies by putting them on the storage place. You can use them later in another part of the visualization.
+
+![alt text](documentation/StoargePlace.png "StoragePlace")
+
+### Show details of competency ###
+Double touch (Web: Right Mouse) on a competency. Now the description is visible, the path to the root competencies and all direct children.
+
+![alt text](documentation/CompetencyDetails.png "Details of competency")
 
 ### Create competency ###
-Long Touch on the recycle bin. Now input fields open and you can enter name, type and a description.
+Long Touch (Web: Long Left Mouse) on the recycle bin. Now input fields open and you can enter name, type and a description.
 
 ### Create relation ###
-Move a competency obect on an existing relation.<br>
+Move a competency object on an existing relation.<br>
 **OR:** <br>
-Get physically closer to a competency object until a button is shown. After a touch on the button, a sphere is shown, which can be moved with Drag/Move touch. If dropped on another competency, a relation will be created.
+Get physically closer to a competency object until a button is shown. After a touch (Web: Left Mouse) on the button, a sphere is shown, which can be moved with Drag/Move touch. If dropped on another competency, a relation will be created.
 
+### Delete competency ###
+Move competency with Drag/Move touch to the recycling bin.
 
+### Delete relation ###
+Touch (Web: Left Mouse) on a relation.
+
+### Edit competency attributes ###
+Double touch (Web: Right Mouse) on a competency to show the details. Next to the description there is an Edit button. After touching it, there will be input fields for name, type and description.
   
 ## Future objectives ##
