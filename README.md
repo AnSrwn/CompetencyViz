@@ -37,7 +37,7 @@ used as a Web-Application.
 
 ### Client ###
 
-1.  Install Unreal Engine 4
+1.  Install Unreal Engine 4.23
 2.  Open the [Unreal Project](client/CompetencyViz/CompetencyViz.uproject)
 3.  Change the IP-address in the variable *URL* in the class [BP_VariableStore](client/CompetencyViz/Content/Blueprints/BP_VariableStore.uasset). Standard is localhost.
 
